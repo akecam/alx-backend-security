@@ -1,4 +1,6 @@
 import logging
+
+from django.db.models.base import ObjectDoesNotExist
 from ip_tracking.models import BlockedIP, RequestLog
 from django.http import HttpResponseServerError
 
@@ -20,7 +22,7 @@ class IPLoggingMiddleware:
         return response
 
 
-class IPAddressBloocked:
+class IPAddressBlocked:
 
     def __init__(self, get_response):
         self.get_response = get_response
@@ -28,12 +30,9 @@ class IPAddressBloocked:
 
     def __call__(self, request):
 
-
-        try:
-            blocked_ip = BlockedIP.objects.get(ip_address=request.META.get('REMOTE_ADDR'))
-            if blocked_ip.DoesNotExist:
-                raise Exception
+        if BlockedIP.objects.filter(ip_address=request.META.get('REMOTE_ADDR')).exists():
+            response = HttpResponseServerError("Oops Something went wrong.")
+            return response
+        else:
             response = self.get_response(request)
-        except Exception as e:
-            response = HttpResponseServerError("Oops! Something went wrong.")
-        return response
+            return response
