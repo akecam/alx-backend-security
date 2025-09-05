@@ -1,5 +1,11 @@
 asgiref==3.9.1
+certifi==2025.8.3
+charset-normalizer==3.4.3
 Django==5.2.6
+django-ip-geolocation==1.6.1
 djangorestframework==3.16.1
+idna==3.10
 logging==0.4.9.6
+requests==2.32.5
 sqlparse==0.5.3
+urllib3==2.5.0

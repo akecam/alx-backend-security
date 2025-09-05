@@ -1,6 +1,4 @@
 import logging
-
-from django.db.models.base import ObjectDoesNotExist
 from ip_tracking.models import BlockedIP, RequestLog
 from django.http import HttpResponseServerError
 
